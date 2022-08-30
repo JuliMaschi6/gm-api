@@ -9,7 +9,7 @@ import { Treatment } from './entities/treatment.entity';
 export class TreatmentService {
 
     constructor(
-        @InjectRepository(Treatment) private tratmenRepository: Repository<Treatment>
+        @InjectRepository(Treatment) private readonly tratmenRepository: Repository<Treatment>
     ){}
     
     //Get all treatments
@@ -26,14 +26,14 @@ export class TreatmentService {
     }
     
     //Post a single treatment
-    async create(createTreatmentDTO: CreateTreatmentDTO):Promise<CreateTreatmentDTO> {
+    async create(createTreatmentDTO: CreateTreatmentDTO): Promise<Treatment> {
         const newTreatment = this.tratmenRepository.create(createTreatmentDTO);
         await this.tratmenRepository.save(newTreatment);
         return newTreatment;
     }
     
     //Update a treatment
-    async updateTreatment(t: any, createTreatmentDTO: CreateTreatmentDTO): Promise<CreateTreatmentDTO> {
+    async updateTreatment(t: any, createTreatmentDTO: CreateTreatmentDTO): Promise<Treatment> {
         const treatment = this.tratmenRepository.merge(t, createTreatmentDTO);
         await this.tratmenRepository.save(treatment);
         return treatment;

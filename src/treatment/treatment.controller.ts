@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, ParseIntPipe, Post, Put, Res } from '@nestjs/common';
 
 import {CreateTreatmentDTO} from './dto/treatment.dto'
 import { TreatmentService } from './treatment.service';
@@ -9,7 +9,7 @@ import { TreatmentService } from './treatment.service';
 export class TreatmentController{
 
     constructor(
-        private treatmentService: TreatmentService
+        private readonly treatmentService: TreatmentService
     ) {}
 
     @Get()
@@ -19,7 +19,7 @@ export class TreatmentController{
     }
 
     @Get(':id')
-    async getTreatment(@Res() res, @Param('id') id){
+    async getTreatment(@Res() res, @Param('id', ParseIntPipe) id){
         const t = await this.treatmentService.findOne(id);
         if (!t) throw new NotFoundException('Treatment does not exist!');
         
@@ -37,7 +37,7 @@ export class TreatmentController{
 
 
     @Put(':id')
-    async updateTreatment(@Res() res , @Param('id') id, @Body() createTreatmentDTO: CreateTreatmentDTO){
+    async updateTreatment(@Res() res , @Param('id', ParseIntPipe) id, @Body() createTreatmentDTO: CreateTreatmentDTO){
         const t = await this.treatmentService.findOne(id);
         if (!t) throw new NotFoundException('Treatment does not exist!');
 
@@ -46,7 +46,7 @@ export class TreatmentController{
     }
 
     @Delete(':id')
-    async deleteTreatment(@Res() res, @Param('id') id){
+    async deleteTreatment(@Res() res, @Param('id', ParseIntPipe) id){
         const t = await this.treatmentService.findOne(id);
         if (!t) throw new NotFoundException('Treatment does not exist!');
 
@@ -55,3 +55,29 @@ export class TreatmentController{
     }
 
 }
+
+/*
+Puedo poner códigos de estado con @HttpCode:
+
+@Post('/create')
+@HttpCode(HttpStatus.NO_CONTENT)
+async createTreatment(@Res() res, @Body() createTreatmentDTO: CreateTreatmentDTO){
+    const t = await this.treatmentService.create(createTreatmentDTO);
+    return res.status(HttpStatus.OK).json({
+        message: 'Treatment Successfully Created',
+        t
+    });
+}
+*/
+
+/*
+Parámetros de tipo query:
+
+@Get()
+async getTreatments(@Res() res, @Query() filterQuery){
+    const { searchTerm , orderBy } = filterQuery;
+    const t = await this.treatmentService.findAll();
+    return res.status(HttpStatus.OK).json(t);
+}
+
+*/

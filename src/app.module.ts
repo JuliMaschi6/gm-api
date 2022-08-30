@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import {TypeOrmModule} from '@nestjs/typeorm'
 
 import { TreatmentModule } from './treatment/treatment.module';
+import { CategoryModule } from './category/category.module';
+
 
 @Module({
   imports: [
@@ -16,12 +18,15 @@ import { TreatmentModule } from './treatment/treatment.module';
       password: 'password',
       database: 'gm',
       entities: ['dist/**/*.entity{.ts,.js}'],
-      synchronize: false,
+      autoLoadEntities: true,
+      synchronize: true, //Se utiliza solo en ambiente de desarrollo, actualiza rapidamente los cambios en la BD
       retryDelay: 3000,
       retryAttempts: 10
     }),
     
-    TreatmentModule
+    TreatmentModule,
+    
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
