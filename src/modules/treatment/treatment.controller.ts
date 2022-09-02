@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, ParseIntPipe, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, ParseIntPipe, Post, Put, Query, Res } from '@nestjs/common';
 
 import {CreateTreatmentDTO} from './dto/treatment.dto'
 import { TreatmentService } from './treatment.service';
@@ -27,14 +27,13 @@ export class TreatmentController{
     }
 
     @Post('/create')
-    async createTreatment(@Res() res, @Body() createTreatmentDTO: CreateTreatmentDTO){
+    async createTreatment(@Res() res , @Body() createTreatmentDTO: CreateTreatmentDTO){
         const t = await this.treatmentService.create(createTreatmentDTO);
         return res.status(HttpStatus.OK).json({
             message: 'Treatment Successfully Created',
             t
         });
     }
-
 
     @Put(':id')
     async updateTreatment(@Res() res , @Param('id', ParseIntPipe) id, @Body() createTreatmentDTO: CreateTreatmentDTO){

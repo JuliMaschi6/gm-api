@@ -3,8 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import {TypeOrmModule} from '@nestjs/typeorm'
 
-import { TreatmentModule } from './treatment/treatment.module';
-import { CategoryModule } from './category/category.module';
+import { TreatmentModule } from './modules/treatment/treatment.module';
+import { CategoryModule } from './modules/category/category.module';
 
 
 @Module({
