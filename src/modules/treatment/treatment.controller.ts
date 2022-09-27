@@ -18,6 +18,16 @@ export class TreatmentController{
         return res.status(HttpStatus.OK).json(t);
     }
 
+    // @Get('/category/:id')
+        
+    // async getTreatmentsByCategory(@Res() res, @Param('id', ParseIntPipe) id){
+    //     console.log('entre')
+    //     const t = await this.treatmentService.findAllByCategory(id);
+    //     if (!t) throw new NotFoundException('There are no treatments with this category!');
+        
+    //     return res.status(HttpStatus.OK).json(t);
+    // }
+
     @Get(':id')
     async getTreatment(@Res() res, @Param('id', ParseIntPipe) id){
         const t = await this.treatmentService.findOne(id);

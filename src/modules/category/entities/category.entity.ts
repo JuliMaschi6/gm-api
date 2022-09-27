@@ -14,8 +14,8 @@ export class Category {
 
     @OneToMany((type)=> Treatment, (treatment) => treatment.category)
     treatments: Treatment[];
-    
-    @Column()
-    @CreateDateColumn()
-    createdAt: Date;
+
+    // @Column()
+    // @CreateDateColumn()
+    // createdAt: Date;
 }

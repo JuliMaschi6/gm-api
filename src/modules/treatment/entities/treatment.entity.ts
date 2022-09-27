@@ -16,10 +16,14 @@ export class Treatment {
   @Column()
   imageURL: string;
 
-  @Column()
-  @CreateDateColumn()
-  createdAt: Date;
+  // @Column()
+  // @CreateDateColumn()
+  // createdAt: Date;
 
-  @ManyToOne((type) => Category, (category) => category.treatments)
+  @ManyToOne((type) => Category, (category) => category.treatments,)
   category: Category;
+  
+  // @ManyToOne(() => ConversationEntity,(conversationEntity) => conversationEntity.messages,)
+  // conversation: ConversationEntity;
+
 }

@@ -1,15 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { from, Observable } from 'rxjs';
+
 
 import { CreateCategoryDTO } from './dto/category.dto';
 import { Category } from './entities/category.entity';
+import { Treatment } from '../treatment/entities/treatment.entity';
+
 
 @Injectable()
 export class CategoryService {
 
     constructor(
-        @InjectRepository(Category) private readonly categoryRepository: Repository<Category>
+        @InjectRepository(Category) private readonly categoryRepository: Repository<Category>,
+        @InjectRepository(Treatment) private readonly tratmenRepository: Repository<Treatment>
     ){}
     
     //Get all categories
@@ -43,9 +48,20 @@ export class CategoryService {
         return treatment;
     }
     
-    //Remove a treatment
+    //Remove a Category
     async remove(id: number): Promise<void> {
         await this.categoryRepository.delete(id);
     }
 
+    //Get category with treatments
+    async findAllByCategory(id: number): Promise<Category> {
+        let categoryTreatments = await this.categoryRepository.createQueryBuilder("category")
+        .leftJoinAndSelect("category.treatments", "treatment")
+        .where("category.id = :id", {id: id})
+        .getOne()
+
+        return categoryTreatments
+    }
 }
+
+

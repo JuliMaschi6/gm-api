@@ -30,7 +30,6 @@ export class TreatmentService {
             relations: ['category'],
         });
         return treatment;
-        
     }
     
     //Post a single treatment
